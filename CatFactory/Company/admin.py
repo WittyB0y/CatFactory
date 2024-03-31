@@ -38,14 +38,14 @@ class CompanyAdmin(admin.ModelAdmin):
         return "Doesn't have provider"
 
     def copy_email_button(self, obj):
-        return format_html('<button type="button" class="email-btn" email="{}">Копировать почту</button>', obj.contact_id.email_id)
+        return format_html(
+            '<button type="button" class="email-btn" email="{}">Copy Email</button>',
+            obj.contact_id.email_id
+        )
 
     @admin.action(description="Clear debit")
     def clear_debet(self, request, queryset):
-        """
-       this action clears the debit (all selected items), 
-       if the length > 30, the async function is called
-        """
+        """this action clears the debit (all selected items), if the length > 30, the async function is called"""
         count_element = queryset.count()
         if count_element > 20:
             for object_comp in queryset:

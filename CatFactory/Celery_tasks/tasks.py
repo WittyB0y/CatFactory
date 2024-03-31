@@ -1,5 +1,3 @@
-from django.core.serializers import deserialize
-from celery import shared_task
 from Company.models import Company
 from CatFactory.celery import App
 

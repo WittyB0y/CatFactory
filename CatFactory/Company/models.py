@@ -16,11 +16,11 @@ class Company(models.Model):
     name = models.CharField(max_length=200, verbose_name="Name")
     contact_id = models.OneToOneField(Contact, on_delete=models.CASCADE)
     product_id = models.ManyToManyField(Product, verbose_name="Product id", blank=True)
-    staff_id = models.ManyToManyField(User,  verbose_name="Employee", blank=True)
+    staff_id = models.ManyToManyField(User, verbose_name="Employee", blank=True)
     provider_id = models.ForeignKey("self", on_delete=models.CASCADE, blank=True, null=True)
     debet = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Debet", default=0)
     date_created = models.DateTimeField(auto_now_add=True, verbose_name="Date created")
-    
+
     @property
     def provider(self):
         """
