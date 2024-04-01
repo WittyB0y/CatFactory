@@ -51,9 +51,8 @@ def decreasing_debet():
 
 
 @celery.task
-def send_qr_code_to_email(company_id, user):
+def send_qr_code_to_email(company_id, user_email):
     company = Company.objects.get(pk=company_id)
-    user_email = User.objects.get(pk=user).email
     email = company.contact_id.email_id.email
     data_for_qr_code = f"Name: {company.name}\nAddress: {company.contact_id.address_id}\nEmail: {email}"
     qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
@@ -72,7 +71,7 @@ def send_qr_code_to_email(company_id, user):
     server.login(settings.EMAIL_USER, settings.EMAIL_PASSWORD)
     msg = MIMEMultipart()
 
-    message = "QR code contains contact information."
+    message = "QR code contains contact information.\n" + data_for_qr_code
     msg.attach(MIMEText(message, "plain"))
     image = MIMEImage(img_byte_array.read(), name="qr.png", content_type="image/png")
     msg.attach(image)

@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, permissions
 from rest_framework.exceptions import ValidationError
@@ -39,11 +40,15 @@ class GenerateQRCodeAndSendEmail(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        user = request.user.id
+        user = get_object_or_404(User, id=request.user.id)
+        user_email = user.email
+
+        if not user_email:
+            return Response("User doesn't have email!", 400)
 
         if serializer.is_valid():
             company = get_object_or_404(self.queryset, id=serializer.data.get("id"))
             company_id = company.id
-            send_qr_code_to_email.delay(company_id, user)
-            return Response("ok", 200)
+            send_qr_code_to_email.delay(company_id, user_email)
+            return Response(f"QR code were sent on {user_email}", 200)
         raise ValidationError(serializer.errors)
