@@ -5,7 +5,6 @@ from email.mime.image import MIMEImage
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from io import BytesIO
-from django.contrib.auth.models import User
 from django.db.models import F
 from CatFactory import settings
 from Company.models import Company
