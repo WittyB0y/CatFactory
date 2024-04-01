@@ -32,3 +32,7 @@ class Company(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.debet}$ - {self.date_created}"
+
+    class Meta:
+        verbose_name = "My Company"  # Change name for Company object in admin
+        verbose_name_plural = "My Companies"  # For plural Company object

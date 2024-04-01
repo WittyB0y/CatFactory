@@ -63,3 +63,14 @@ services:
     depends_on:
       - worker
       - redis
+
+  flower:
+    image: mher/flower:0.9.7
+    container_name: flower
+    command: [ 'flower', '--broker=redis://redis:6379' ]
+    ports:
+      - 5555:5555
+    depends_on:
+      - redis
+    environment:
+      - TZ=Europe/Minsk

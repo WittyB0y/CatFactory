@@ -1,8 +1,16 @@
 import random
+import smtplib
 from decimal import Decimal
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from io import BytesIO
+from django.contrib.auth.models import User
 from django.db.models import F
+from CatFactory import settings
 from Company.models import Company
 from CatFactory.celery import celery
+import qrcode
 
 
 @celery.task(bind=True)
@@ -40,3 +48,38 @@ def decreasing_debet():
         else:
             comp.debet = new_debet_sum
         comp.save()
+
+
+@celery.task
+def send_qr_code_to_email(company_id, user):
+    company = Company.objects.get(pk=company_id)
+    user_email = User.objects.get(pk=user).email
+    email = company.contact_id.email_id.email
+    data_for_qr_code = f"Name: {company.name}\nAddress: {company.contact_id.address_id}\nEmail: {email}"
+    qr = qrcode.QRCode(version=1, error_correction=qrcode.constants.ERROR_CORRECT_L, box_size=10, border=4)
+    qr.add_data(data_for_qr_code)
+    qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    img_byte_array = BytesIO()
+    img.save(img_byte_array, format="PNG")
+    img_byte_array.seek(0)
+
+    from_email = settings.EMAIL_USER
+    to_email = user_email
+
+    server = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
+    server.starttls()
+    server.login(settings.EMAIL_USER, settings.EMAIL_PASSWORD)
+    msg = MIMEMultipart()
+
+    message = "QR code contains contact information."
+    msg.attach(MIMEText(message, "plain"))
+    image = MIMEImage(img_byte_array.read(), name="qr.png", content_type="image/png")
+    msg.attach(image)
+
+    msg["Subject"] = f"CatFactory: Contact information about {company.name}"
+    msg["From"] = from_email
+    msg["To"] = to_email
+
+    server.sendmail(from_email, to_email, msg.as_string())
+    server.quit()

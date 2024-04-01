@@ -107,6 +107,13 @@ CELERY_BEAT_SCHEDULE = {
     },
 }
 
+# SETTINGS FOR EMAIL SERVER
+EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_USER = os.getenv('EMAIL_USER')
+EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
+EMAIL_PORT = os.getenv('EMAIL_PORT')
+EMAIL_USE_TLS = bool(os.getenv('EMAIL_USE_TLS'))
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = os.getenv('TIME_ZONE')

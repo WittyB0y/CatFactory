@@ -11,6 +11,9 @@ class Address(models.Model):
     def __str__(self):
         return f"{self.country}, {self.city}, {self.street}, {self.number}"
 
+    class Meta:
+        verbose_name_plural = "Addresses"  # For plural Address object
+
 
 class Email(models.Model):
     email = models.EmailField(null=False)
