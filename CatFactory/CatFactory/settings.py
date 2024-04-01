@@ -1,5 +1,7 @@
 from pathlib import Path
 import os
+
+from celery.schedules import crontab
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -12,9 +14,7 @@ DEBUG = bool(os.getenv('DEBUG'))
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -61,6 +61,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CatFactory.wsgi.application'
 
+# DB SETTINGS
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
@@ -90,16 +91,25 @@ AUTH_PASSWORD_VALIDATORS = [
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
 CELERY_BROKER_TRANSPORT_OPTIONS = {"visibility_timeout": 2500}
 CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND')
-CELERY_ACCEPT_CONTENT = ("application/json", )
+CELERY_ACCEPT_CONTENT = ("application/json",)
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
+# SETTINGS FOR SCHEDULE TASKS
+CELERY_BEAT_SCHEDULE = {
+    'increasing-debet-task-every-3-hours': {
+        'task': 'Celery_tasks.tasks.increasing_debet',
+        'schedule': 60 * 60 * 3,  # every 3 hours
+    },
+    'decreasing-debet-task-every-morning-at-6_30_am': {
+        'task': 'Celery_tasks.tasks.decreasing_debet',
+        'schedule': crontab(hour='6', minute='30'),
+    },
+}
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = os.getenv('TIME_ZONE')
 
 USE_I18N = True
 
@@ -109,8 +119,5 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 STATIC_URL = '/static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
