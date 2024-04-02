@@ -19,6 +19,11 @@ ___
 #### Flower 🌼: http://localhost:5555/
 
 ---
+# Login details for admin 🆔
+##### Login: `admin`
+##### Password: `admin`
+
+---
 # Conclusion ✏️
 
 ✅ All tasks were completed! ✅
