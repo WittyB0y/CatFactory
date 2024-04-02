@@ -3,6 +3,7 @@ ___
 # Installation ⚙️
 
 1. `git clone https://github.com/WittyB0y/CatFactory.git` - Clone the project from GitHub.
+2. `cd CatFactory` - Go to the directory with docker-compose.yml.
 2. `docker-compose build` - Build image for Docker.
 3. `docker-compose up` - Up containers.
 4. `docker-compose run --rm web-app sh -c "python manage.py fill_db_user"` - Fill up DB with test user data.
