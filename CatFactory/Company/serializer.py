@@ -38,9 +38,11 @@ class ContactSerializer(serializers.ModelSerializer):
 
 class CompanyObjectsSerializer(serializers.ModelSerializer):
     contact_id = ContactSerializer()
+    name = serializers.CharField(max_length=50)  # Validation for Company name
     product_id = serializers.PrimaryKeyRelatedField(queryset=Product.objects.all(), many=True)
     staff_id = serializers.PrimaryKeyRelatedField(queryset=User.objects.all(), many=True)
     debet = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True, default=0)
+
     # Can set value when create new Company, but can't update through API.
 
     def create(self, validated_data):
