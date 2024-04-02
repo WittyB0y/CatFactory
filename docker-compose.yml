@@ -14,7 +14,7 @@ services:
       - DB_PASSWORD=postgres
 
     command: >
-      sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py makemigrations && python manage.py migrate && python manage.py fill_db_user && python manage.py fill_db_product && python manage.py fill_db_company && python manage.py runserver 0.0.0.0:8000"
       
 
     depends_on:

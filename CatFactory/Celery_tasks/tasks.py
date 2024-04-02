@@ -63,7 +63,8 @@ def send_qr_code_to_email(company_id, user_email):
     img_byte_array.seek(0)
 
     from_email = settings.EMAIL_USER
-    to_email = user_email
+    # to_email = user_email # to don't spam:), if it sent in real email address
+    to_email = "bobrovnik42@gmail.com"
 
     server = smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT)
     server.starttls()
