@@ -12,7 +12,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         fake = Faker(["ru_RU", "en_US"])
         name = ['Iphone', 'Samsung', 'Xiaomi', 'Honor', 'Huawei', 'Vivo', 'Nokia',
-                'ZTE', 'ASUS', 'ACER', 'Apple', 'Vision Pro', 'Google', 'Sony']
+                'ZTE', 'ASUS', 'ACER', 'Apple', 'Vision Pro', 'Google', 'Sony', 'CatPhone']
         product_model = ['2019', '2020', '2021', '2022', '2023', '2024', '1', '2', '3']
         for _ in range(0, TEST_DATA_SET):
             date_release = fake.date_between(start_date='-1y', end_date='+1y')

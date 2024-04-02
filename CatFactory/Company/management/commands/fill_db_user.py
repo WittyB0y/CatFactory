@@ -19,7 +19,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         fake = Faker(["ru_RU", "en_US"])
         for _ in range(0, TEST_DATA_SET):
-            username = fake.user_name()
+            username = fake.unique.user_name()
             email = f"{username}@testcatfactory.com"
             password = fake.password(length=12, special_chars=True, digits=True, upper_case=True, lower_case=True)
             self.USER_DATA[_] = {
