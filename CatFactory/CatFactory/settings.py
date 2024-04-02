@@ -77,6 +77,7 @@ DATABASES = {
 }
 
 AUTH_PASSWORD_VALIDATORS = [
+    # Turn off it to use fake data for fill up DB
     # {
     #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     # },
