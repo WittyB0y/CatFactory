@@ -32,6 +32,7 @@ class GenerateQRCodeAndSendEmail(viewsets.ModelViewSet):
     queryset = Company.objects.all()
     serializer_class = GenerateQRCodeAndSendEmailSerializer
     permission_classes = (permissions.IsAuthenticated,)
+    http_method_names = ("get", "post",)
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
