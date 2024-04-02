@@ -1,7 +1,7 @@
 # CatFactory: RocketData 🚀
 ___
 # Installation ⚙️
-
+#### *️⃣ if you use Linux, start commands (3 - 9) with `sudo`
 1. `git clone https://github.com/WittyB0y/CatFactory.git` - Clone the project from GitHub.
 2. `cd CatFactory` - Go to the directory with docker-compose.yml.
 3. `docker-compose build` - Build image for Docker ().
