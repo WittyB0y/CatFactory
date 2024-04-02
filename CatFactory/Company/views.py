@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AnonymousUser
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, permissions
 from rest_framework.exceptions import ValidationError
@@ -25,6 +25,8 @@ class CompanyObjectsViewSet(viewsets.ModelViewSet):
         user = self.request.user
         if user.is_superuser:
             return self.queryset
+        elif isinstance(user, AnonymousUser):
+            return self.queryset.none()
         return self.queryset.filter(staff_id=user)
 
 
