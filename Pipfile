@@ -17,7 +17,7 @@ pillow = "*"
 flake8 = "*"
 djangorestframework-simplejwt = "*"
 drf-yasg = "*"
-mimesis = "*"
+faker = "*"
 psycopg2-binary = "*"
 
 [dev-packages]
